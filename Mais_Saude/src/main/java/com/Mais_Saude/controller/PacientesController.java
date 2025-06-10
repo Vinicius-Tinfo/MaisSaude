@@ -12,7 +12,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.Mais_Saude.repository.PacienteRepository;
 import com.Mais_Saude.model.PacientesModel;
-import com.Mais_Saude.model.UsuarioModel;
 
 
 @Controller
@@ -44,7 +43,7 @@ public ModelAndView PacientesModel(PacientesModel pacientes) {
 public String Deletar (PacientesModel paciente,@PathVariable("id") long id ) {
 paciente = (PacientesModel)this.pacientesrepository.getOne(id);
 this.pacientesrepository.delete(paciente);
-
+// pacientesrepository.deleteById(id); trocar aqui futuramente
 return"redirect:/pacientes";
 }
 

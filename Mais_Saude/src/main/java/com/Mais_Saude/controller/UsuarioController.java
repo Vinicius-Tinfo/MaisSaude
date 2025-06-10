@@ -1,5 +1,6 @@
 package com.Mais_Saude.controller;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +10,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.Mais_Saude.model.UsuarioModel;
+import com.Mais_Saude.repository.PermissoesRepository;
 import com.Mais_Saude.repository.UsuarioRepository;
 
 
@@ -19,12 +22,22 @@ import com.Mais_Saude.repository.UsuarioRepository;
 @Controller
 public class UsuarioController {
 
+
 	@Autowired
 	private UsuarioRepository usuariorepository;
+
+	@Autowired
+	private PermissoesRepository permissoesRepository;
 	
 	@GetMapping({"/usuarios"})
 		public String Usuarios(Model model) {
+		
+			
+			
+
 			model.addAttribute("usuarios", usuariorepository.findAll());
+						model.addAttribute("permissoes", permissoesRepository.findAll());
+
 		return"usuarios/listar-usuarios";
 	}
 	
@@ -47,28 +60,37 @@ public class UsuarioController {
 
 	return"redirect:/usuarios";
 }
-	  @GetMapping("usuario-{id}")
-	  public String busca(@PathVariable long id, Model model){
+		//mexendo aqui 09/06//
+	  @GetMapping("usuario/{id}")
+	  public String busca(@PathVariable long id, Model model,RedirectAttributes redirectAttributes){
+
+		if (usuariorepository.existsById(id)) {
+			
 	    Optional<UsuarioModel> usuarios = usuariorepository.findById(id);
-	    try{
-	      model.addAttribute("usuarios", usuarios.get());
-	    }
-	    catch(Exception err){ return "redirect:/"; }
+		UsuarioModel usuario = usuarios.get();
 
+		System.out.println(usuario.getData_de_nascimento());
+
+	    model.addAttribute("usuarios", usuario);
+	     
 		return ("usuarios/alterar");
-	  }
+	     }
+		else{
+			redirectAttributes.addFlashAttribute("mensagemErro", "Ação não permitida");
 
+			System.out.println("entrou no erro");
+		    return ("redirect:/usuarios");
+		  }
+		} 
 	
 	
 	  @PostMapping("/{id}/atualizar")
-	  public String atualizar(@PathVariable long id, UsuarioModel usuarios){
-	    // if(!repo.exist(id)){
+	  public String atualizar(@PathVariable long id, UsuarioModel usuarios , RedirectAttributes redirectAttributes){
 	    if(!usuariorepository.existsById(id)){
 	      return "redirect:/";
 	    }
-
-	    usuariorepository.save(usuarios);
-
+		UsuarioModel usuarioSalvo = usuariorepository.save(usuarios);
+		redirectAttributes.addFlashAttribute("mensagem", "Usuario : "+usuarioSalvo.getNome() +"Alterado com sucesso!");
 	    return "redirect:/usuarios";
 	  }
 	  

@@ -12,29 +12,36 @@
   <div class="card shadow mb-4" style="padding: 30px;">
     <form method="post" th:action="@{'/' + ${usuarios.id} + '/atualizar'}" style="margin: 10px"
       onsubmit="return confirm ('Confirma a ação ?')">
-      <div class="form-group">
+      <div class="form-row">
+
+      <div class="form-group col-md-6">
         <label for="nome">Nome</label>
         <input type="text" class="form-control" id="nome" name="nome" th:value="${usuarios?.nome}"
           placeholder="Digite o nome aqui" required>
         <small id="emailHelp" class="form-text text-muted">Digite o nome completo</small>
       </div>
       
-     <div class="form-group">
+     <div class="form-group col-md-6">
       <label for="cpf">CPF</label>
-      <input  type="text"class="form-control" id="cpf" name="cpf" th:value="${usuarios?.cpf}" maxlength="11" placeholder="Digite o cpf" required>
+      <input  type="text"class="form-control" id="cpf" name="cpf" th:value="${usuarios?.cpf}" maxlength="11" placeholder="Digite o cpf" readonly required style="background-color: #f8f9fa; color: black; opacity: 1; box-shadow: none;">
       <small id="emailHelp" class="form-text text-muted">Digite apenas números</small>
-
      </div>
-     <div class="form-group">
+
+      </div>
+
+      <div class="form-row">
+     <div class="form-group col-md-6">
         <label for="email">Email</label>
         <input type="email" class="form-control" id="email" name="email" th:value="${usuarios?.email}" placeholder="Digite o email" required>
         <small id="emailHelp" class="form-text text-muted"></small>
 
       </div>  
-       <div class="form-group">
+       <div class="form-group col-md-6">
         <label for="telefone">Telefone</label>
         <input type="text" class="form-control" id="telefone" name="telefone" th:value="${usuarios?.telefone}" maxlength="11" placeholder="Digite o número para contato" required>
-      </div>      
+      </div>
+
+        </div>
       <div class="form-group">
         <label for="endereco">Endereço</label>
         <input type="text" class="form-control" id="endereco" name="endereco" th:value="${usuarios?.endereco}" placeholder="Digite o  seu endereço" required>
@@ -47,17 +54,18 @@
       
 							 <div class="form-group">
 							<label for="permissao">Permissao</label>
-							<select id="permissao" name="permissao" class="form-control" aria-label="Disabled select example" required >
-							  <option disabled selected>Escolha um cargo</option>
-							  <option value="0">Administrador</option>
-							  <option value="1">Médico</option>
-							</select>
+            <select id="permissao" name="permissao" class="form-control" required>
+              <option disabled th:selected="${usuarios.permissao == null}">Escolha um cargo</option>
+              <option value="0" th:selected="${usuarios.permissao == 0}">Administrador</option>
+              <option value="1" th:selected="${usuarios.permissao == 1}">Médico</option>
+            </select>
+
 							 </div>
 							 
 							<div class="row">
        <div class="col">
       <label for="data_de_nascimento">Data de nascimento</label>
-        <input type="date" class="form-control" id="data_de_nascimento" name="data_de_nascimento" th:value="${pacientes?.data_de_nascimento}"  required>
+        <input type="date" class="form-control" id="data_de_nascimento" name="data_de_nascimento" th:value="${usuarios.data_de_nascimento}"  required>
     </div>
   </div>  
 							 <br>

@@ -10,6 +10,15 @@
                     <h1 class="h3 mb-2 text-gray-800">Tabela de Usuários</h1>
                     <p class="mb-4">Lista de Usuários do sistema</p>
 
+                    <div th:if="${mensagem}" id="mensagem"  class="alert alert-success" role="alert">
+                        <p th:text="${mensagem}"></p>
+                        <script> setTimeout(function removerItem (){document.getElementById("mensagem").remove()},5000);</script>
+                    </div>
+                    <div th:if="${mensagemErro}" id="mensagem"  class="alert alert-danger" role="alert">
+                        <p th:text="${mensagemErro}"></p>
+                        <script> setTimeout(function removerItem (){document.getElementById("mensagem").remove()},5000);</script>
+                    </div>
+
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
@@ -37,8 +46,20 @@
                                                   <td th:text="${usuarios.cpf}"></td>
                                                   <td th:text="${usuarios.email}"></td>
                                                   <td th:text="${usuarios.telefone}"></td>
-                                                  <td th:text="${usuarios.permissao}"></td>
-                                               <td><a th:href="@{'usuario-' + ${usuarios.id}}" class="btn btn-warning btn-block" >Alterar</a></td>
+                                                  <!-- Gambiarra por enquanto não uso o manyToOne -->
+                                                 <td> 
+                                                    <span th:each="permissao : ${permissoes}"
+                                                            th:if="${permissao.id == usuarios.permissao}"
+                                                            th:text="${permissao.descricao}"></span>
+                                                </td>
+
+                                                  <!-- gambiarra fixa<td th:switch="${usuarios.permissao}">
+                                                        <span th:case="0">Administrador</span>
+                                                        <span th:case="1">Médico</span>
+                                                        <span th:case="*">Permissão desconhecida</span>
+                                                        </span>
+                                                        </td> -->
+                                               <td><a th:href="@{'usuario/' + ${usuarios.id}}" class="btn btn-warning btn-block" >Alterar</a></td>
                                                   <td><a th:href="@{/deletar-usuario/{id}(id=${usuarios.id})}" class="btn btn-danger btn-block"  onclick="return confirm ('Confirma a ação ?')">  Excluir</a></td>
                                         </tr>
                                     </tbody>
