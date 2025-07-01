@@ -1,10 +1,6 @@
 
 <div th:replace="~{partes-compartilhadas/topo}"></div><!--Parte que importa o html responsavel pelo topo das paginas-->
               
-              
-              
-                <!-- Begin Page Content -->
-                <div class="container-fluid">
 
                     <!-- Page Heading -->
                     <h1 class="h3 mb-2 text-gray-800">Tabela de Usuários</h1>
@@ -34,7 +30,6 @@
                                             <th>CPF</th>
                                             <th>Email</th>
                                             <th>Telefone</th>
-                                            <th>Permissão</th>
                                             <th></th>
                                             <th></th>
                                         </tr>
@@ -46,18 +41,12 @@
                                                   <td th:text="${usuarios.cpf}"></td>
                                                   <td th:text="${usuarios.email}"></td>
                                                   <td th:text="${usuarios.telefone}"></td>
-                                                  <!-- Gambiarra por enquanto não uso o manyToOne -->
-                                                 <td> 
-                                                    <span th:each="permissao : ${permissoes}"
-                                                            th:if="${permissao.id == usuarios.permissao}"
-                                                            th:text="${permissao.descricao}"></span>
-                                                </td>
-                                                    <td><a th:href="@{'usuario/' + ${usuarios.id}}" class="btn btn-warning btn-block" >Alterar</a></td>
-                                                  <td>
-                                                        <!-- Adicionar um modal aqui -->
+                                                  <td><a th:href="@{'usuario/' + ${usuarios.id}}" class="btn btn-warning btn-block" >Alterar</a></td>
+                                                  <td><!-- Adicionar um modal aqui -->
                                                     <form th:action="@{/deletar-usuario/{id}(id=${usuarios.id})}" method="post">
                                                     <button type="submit"  class="btn btn-danger btn-block"      onclick="return confirm('Confirma a ação de deletar o usuario ?')">Excluir</button>
                                                     </form>
+                                                  </td>
                                                     <!--/* <a th:href="@{/deletar-usuario/{id}(id=${usuarios.id})}" class="btn btn-danger btn-block"  onclick="return confirm ('Confirma a ação ?')">  Excluir</a></td> */-->
                                         </tr>
                                     </tbody>
@@ -66,7 +55,6 @@
                         </div>
                     </div>
 
-                </div>
+              
                
-                <!-- /.container-fluid -->
                 <div th:replace="~{partes-compartilhadas/footer}"></div><!--Parte que importa o html responsavel pela parte de baixo das paginas-->

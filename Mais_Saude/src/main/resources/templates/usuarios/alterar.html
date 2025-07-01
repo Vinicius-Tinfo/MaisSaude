@@ -1,83 +1,75 @@
 <div th:replace="~{partes-compartilhadas/topo}"></div>
 
-<!--Parte que importa o html responsavel pelo topo das paginas-->
-<!-- Begin Page Content -->
-<div class="container-fluid">
 
   <!-- Page Heading -->
-  <h1 class="h3 mb-2 text-gray-800">Alterar Usuários</h1>
+  <h1 class="h3 mb-2 text-gray-800">Alterar Usuário</h1>
 
 
   <!-- DataTales Example -->
   <div class="card shadow mb-4" style="padding: 30px;">
-    <form method="post" th:action="@{'/' + ${usuarios.id} + '/atualizar'}" style="margin: 10px"
-      onsubmit="return confirm ('Confirma a ação ?')">
+    <form method="post" th:action="@{'/usuario/' + ${usuarios.id} + '/atualizar'}" style="margin: 10px" th:object="${UsuarioModel}"   >
       <div class="form-row">
 
-      <div class="form-group col-md-6">
+      <div class="form-group col-md-5">
         <label for="nome">Nome</label>
-        <input type="text" class="form-control" id="nome" name="nome" th:value="${usuarios?.nome}"
-          placeholder="Digite o nome aqui" required>
-        <small id="emailHelp" class="form-text text-muted">Digite o nome completo</small>
+        <input type="text" class="form-control" id="nome" name="nome" th:value="${usuarios?.nome}"  placeholder="Digite o nome aqui" oninput="this.value = this.value.replace(/[^A-Z a-z.]/g, '').replace(/(\..*?)\..*/g, '$1');"  required>
+        <small id="emailHelp" class="form-text text-muted">Nome completo</small>
       </div>
-      
-     <div class="form-group col-md-6">
+
+       <div class="form-group col-md-2">
+        <label for="sexo_biologico">Sexo Biológico</label>
+        <input type="text" class="form-control" id="sexo_biologico" name="sexo_biologico" th:value="${usuarios?.sexo_biologico}"  placeholder="Digite o nome aqui" oninput="this.value = this.value.replace(/[^A-Z a-z.]/g, '').replace(/(\..*?)\..*/g, '$1');"  style="text-transform: capitalize;" readonly required>
+      </div>
+
+      <div class="form-group col-md-2">
+        <label for="data_de_nascimento">Data de nascimento</label>
+        <input type="date" class="form-control" id="data_de_nascimento" name="data_de_nascimento" th:value="${usuarios.data_de_nascimento}" readonly required>
+      </div>
+
+     <div class="form-group col-md-3">
       <label for="cpf">CPF</label>
       <input  type="text"class="form-control" id="cpf" name="cpf" th:value="${usuarios?.cpf}" maxlength="11" placeholder="Digite o cpf" readonly required style="background-color: #f8f9fa; color: black; opacity: 1; box-shadow: none;">
-      <small id="emailHelp" class="form-text text-muted">Digite apenas números</small>
+      <small id="emailHelp" class="form-text text-muted">CPF com apenas números</small>
      </div>
 
       </div>
 
       <div class="form-row">
-     <div class="form-group col-md-6">
+     <div class="form-group col-md-4">
         <label for="email">Email</label>
         <input type="email" class="form-control" id="email" name="email" th:value="${usuarios?.email}" placeholder="Digite o email" required>
         <small id="emailHelp" class="form-text text-muted"></small>
 
       </div>  
-       <div class="form-group col-md-6">
+       <div class="form-group col-md-4">
         <label for="telefone">Telefone</label>
         <input type="text" class="form-control" id="telefone" name="telefone" th:value="${usuarios?.telefone}" maxlength="11" placeholder="Digite o número para contato" required>
       </div>
-
-        </div>
-      <div class="form-group">
+ 
+      <div class="form-group col-md-4">
         <label for="endereco">Endereço</label>
         <input type="text" class="form-control" id="endereco" name="endereco" th:value="${usuarios?.endereco}" placeholder="Digite o  seu endereço" required>
       </div>       
-      <div class="form-group">
-            <label for="senha">Senha</label>
-            <input type="password" class="form-control" id="senha" name="senha" th:value="${usuarios?.senha}"
-              placeholder="senha" required>
       </div>
+			<div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="permissoes">Permissões:</label>
+          <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label th:each="permissao : ${permissoes}" class="btn btn-outline-primary"
+             th:classappend="${permissoesIds.contains(permissao.id)} ? ' active'">
+               <input type="checkbox" name="permissoes" th:value="${permissao.id}" 
+                th:checked="${permissoesIds.contains(permissao.id)}" />
+                <span th:text="${permissao.descricao}"></span>
+            </label>
       
-							 <div class="form-group">
-							<label for="permissao">Permissao</label>
-            <select id="permissao" name="permissao" class="form-control" required>
-              <option disabled th:selected="${usuarios.permissao == null}">Escolha um cargo</option>
-              <option value="0" th:selected="${usuarios.permissao == 0}">Administrador</option>
-              <option value="1" th:selected="${usuarios.permissao == 1}">Médico</option>
-            </select>
-
-							 </div>
-							 
-							<div class="row">
-       <div class="col">
-      <label for="data_de_nascimento">Data de nascimento</label>
-        <input type="date" class="form-control" id="data_de_nascimento" name="data_de_nascimento" th:value="${usuarios.data_de_nascimento}"  required>
     </div>
-  </div>  
-							 <br>
-							 <br>
-							 
+  </div>
+</div>
+											 
       <button type="submit" class="btn btn-primary">Enviar</button>
     </form>
 
   </div>
-
-</div>
-<!-- /.container-fluid -->
 
 <div th:replace="~{partes-compartilhadas/footer}"></div>
 <!--Parte que importa o html responsavel pela parte de baixo das paginas-->

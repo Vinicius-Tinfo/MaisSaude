@@ -1,15 +1,13 @@
 
 <div th:replace="~{partes-compartilhadas/topo}"></div><!--Importando o topo das paginas-->
-                <!-- Begin Page Content -->
-                <div class="container-fluid">
-
+                
                     <!-- Page Heading -->
                     <h1 class="h3 mb-2 text-gray-800">Novo Usuários</h1>
                    
 
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4" style="padding: 30px;">
-                      <form method="post" th:action="@{/usuario/criar}"  style="margin: 10px" onsubmit="return confirm ('Confirma a ação ?')" th:object="${UsuarioModel}">
+                      <form method="post" th:action="@{/usuario/criar}"  style="margin: 10px"  th:object="${UsuarioModel}">
                             
                     <div class="form-row">
 			                <div class="form-group col-md-6">
@@ -24,9 +22,9 @@
                     </div>
                     <div class="form-row">
                       <div class="form-group col-md-6">
-                        <label for="sexo">Sexo</label>
-                        <select id="sexo" name="sexo" class="form-control" aria-label="Disabled select example" required >
-                          <option disabled selected>Escolha seu sexo</option>
+                        <label for="sexo_biologico">Sexo biologico</label>
+                        <select id="sexo_biologico" name="sexo_biologico" class="form-control" aria-label="Disabled select example" required >
+                          <option disabled selected>Escolha o sexo biologico</option>
                           <option value="feminino">Feminino</option>
                           <option value="masculino">Masculino</option>
                         </select>
@@ -57,24 +55,53 @@
                        <input type="password" class="form-control" id="senha" name="senha" placeholder="Senha" required>
                       </div>
                                                          
-                      <div class="form-group">
-                       <label for="telefone">Permissao</label>
-                       <select id="permissao" name="permissao" class="form-control" aria-label="Disabled select example">
-                        <option disabled selected>Escolha um cargo</option>
-                        <option value="0">Administrador</option>
-                        <option value="1">Médico</option>
-                       </select>
+                     <div class="form-row">
+                      <div class="form-group col-md-6">
+                        <label for="permissoes">Permissões:</label>
+                        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                          <label th:each="permissao : ${permissoes}" class="btn btn-outline-primary text-center mr-2">
+                            <input type="checkbox"
+                                  class="mt-1"
+                                  name="permissoes"
+                                  th:value="${permissao.id}"
+                                  th:id="'perm_' + ${permissao.id}"
+                                  autocomplete="off"
+                                  onchange="verificarPermissao()" />
+                                  <span th:text="${permissao.descricao}"></span>
+                          </label>
+                        </div>
+                      </div>
+
+        <!--/* quando mudar para bootstrap 5<div th:each="permissao : ${permissoes}" class="me-2 d-inline-block">
+    <input class="btn-check" type="checkbox" name="permissoes" th:value="${permissao.id}" th:id="'perm_' + ${permissao.id}" />
+    <label class="btn btn-outline-primary" th:for="'perm_' + ${permissao.id}" th:text="${permissao.descricao}">Permissão</label> </div> */-->
+  
+
+                       <div class="form-group col-md-6" id="div-Crm" style="display: none;">
+                       <label for="senha">Digite o CRM</label>
+                       <input type="text" class="form-control" id="crm" name="crm" placeholder="Digite o CRM" required>
+                      </div> 
                       </div>
                          	
                       <br>
                       <button type="submit" class="btn btn-primary">Enviar</button>
+
                       </form>
                         
                     </div>
 
-
-                </div>
-                <!-- /.container-fluid -->
+                         <script>
+                          function verificarPermissao() {
+                           const checkbox = document.getElementById("perm_1");
+                           const CampoCRM = document.getElementById("div-Crm");
+                            if (checkbox && checkbox.checked) {
+                              CampoCRM.style.display = "block";
+                            } else {
+                              CampoCRM.style.display = "none";
+                              document.getElementById("crm").value = null;
+                            }
+                         
+                           }
+                        </script> 
                
-                
                <div th:replace="~{partes-compartilhadas/footer}"></div><!--Parte que importa o html responsavel pela parte de baixo das paginas-->

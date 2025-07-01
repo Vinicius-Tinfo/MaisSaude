@@ -1,12 +1,17 @@
 package com.Mais_Saude.model;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -36,14 +41,43 @@ public class UsuarioModel {
 	@Column(name = "senha")
 	private String senha;
 	
-	@Column(name = "permissao")
-	private int permissao;
+
 	
 	@Column(name = "data_de_nascimento")
 	private Date data_de_nascimento;
+
+
+	@Column(name = "sexo_biologico")
+	private String sexo_biologico;
+
+
+	@ManyToMany
+	@JoinTable(
+		name = "usuario_permissao",
+		joinColumns = @JoinColumn(name = "usuario_id"),
+		inverseJoinColumns = @JoinColumn(name = "permissao_id")
+	)
+	private List<PermissoesModel> permissoes = new ArrayList<>();
 	
-	@Column(name = "sexo")
-	private String sexo;
+
+
+	
+	public List<PermissoesModel> getPermissoes() {
+		return permissoes;
+	}
+
+	public void setPermissoes(List<PermissoesModel> permissoes) {
+		this.permissoes = permissoes;
+	}
+
+	public String getSexo_biologico() {
+		return sexo_biologico;
+	}
+
+	public void setSexo_biologico(String sexo_biologico) {
+		this.sexo_biologico = sexo_biologico;
+	}
+
 
 	public Date getData_de_nascimento() {
 		return data_de_nascimento;
@@ -53,13 +87,7 @@ public class UsuarioModel {
 		this.data_de_nascimento = data_de_nascimento;
 	}
 
-	public String getSexo() {
-		return sexo;
-	}
 
-	public void setSexo(String sexo) {
-		this.sexo = sexo;
-	}
 
 	public Long getId() {
 		return id;
@@ -117,14 +145,7 @@ public class UsuarioModel {
 		this.senha = senha;
 	}
 
-	public int getPermissao() {
-		return permissao;
-	}
-
-	public void setPermissao(int permissao) {
-		this.permissao = permissao;
-	}
-
+	
 
 	
 }
