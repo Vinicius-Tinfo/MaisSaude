@@ -1,5 +1,5 @@
 
-<div th:replace="partes-compartilhadas/topo"></div><!--Parte que importa o html responsavel pelo topo das paginas-->
+<div th:replace="~{partes-compartilhadas/topo}"></div><!--Parte que importa o html responsavel pelo topo das paginas-->
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
@@ -104,4 +104,4 @@
 									document.getElementById('data').value= yr+"-"+mt+"-"+dy;
 							</script>
                 
-                <div th:replace="partes-compartilhadas/footer"></div><!--Parte que importa o html responsavel pela parte de baixo das paginas-->
+                <div th:replace="~{partes-compartilhadas/footer}"></div><!--Parte que importa o html responsavel pela parte de baixo das paginas-->

@@ -1,6 +1,24 @@
-<div th:replace="partes-compartilhadas/topo"></div><!--Parte que importa o html responsavel pelo topo das paginas-->
+<div th:replace="~{partes-compartilhadas/topo}"></div><!--Parte que importa o html responsavel pelo topo das paginas-->
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
+
+                
+                    <style>
+                        td.nome,
+                        td.endereco {
+                            white-space: normal;      
+                            word-wrap: break-word;   
+                            overflow-wrap: break-word;
+                            max-width: 180px;        
+                            }
+                        table {
+                        table-layout: fixed;
+                        width: 100%;
+                        }
+                        .dataTables_filter {  
+                        margin-right: 4%;
+                         }
+                        </style>
 
                     <!-- Page Heading -->
                     <h1 class="h3 mb-2 text-gray-800">Tabela de Pacientes</h1>
@@ -14,40 +32,52 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <table class="table table-bordered" id="dataTable" width="98%" cellspacing="0">
                                     <thead>
                                         <tr>
-                                        <!--    <th>Id</th> -->
                                             <th>Nome</th>                                  
+                                            <th hidden>Cpf escondido</th>
                                             <th>CPF</th>
                                             <th>Telefone</th>
-                                            <th>Endereço</th>
+                                            <th>Endereço</th>    
                                             <th></th>
                                             <th></th>
                                             <th></th>
                                         </tr>
                                     </thead>
-                                    <tfoot>
-                                  		
-                                    </tfoot>
                                     <tbody>
-                                              <tr th:each="pacientes : ${pacientes}">
-                                                <!--  <td th:text="${pacientes.id}"></td> -->
-                                                  <td th:text="${pacientes.nome}"></td>
-                                                  <td th:text="${pacientes.cpf}"></td>
-                                                  <td th:text="${pacientes.telefone}"></td>
-                                                  <td th:text="${pacientes.endereco}"></td>
+                                        <tr th:each="pacientes : ${pacientes}">
+                                            <td id="nome" th:text="${pacientes.nome}" style="text-transform: capitalize;"></td>
+                                            <td hidden th:text="${pacientes.cpf}"></td> 
+                                            <td class="cpf" th:text="'***.' + ${pacientes.cpf.substring(3,6)} + '.***-' + ${pacientes.cpf.substring(9,11)}"></td>
+                                            <td th:text="${pacientes.telefone}"></td>
+                                            <td id="endereco" th:text="${pacientes.endereco}"></td>
                                             <td><a th:href="@{'/consultar-' + ${pacientes.id}}" class="btn btn-success btn-block" >Consultar</a></td>
                                             <td><a th:href="@{'/paciente-' + ${pacientes.id}}" class="btn btn-warning btn-block" >Alterar</a></td>
-											 <td><a th:href="@{/deletar-paciente/{id}(id=${pacientes.id})}" class="btn btn-danger btn-block"  onclick="return confirm ('Confirma a ação ?')">Excluir</a></td>
+											<td><a th:href="@{/deletar-paciente/{id}(id=${pacientes.id})}" class="btn btn-danger btn-block"  onclick="return confirm ('Confirma a ação ?')">Excluir</a></td>
 
                                         </tr>
                                     </tbody>
+                                        <tfoot></tfoot>
                                 </table>
                             </div>
                         </div>
                     </div>
 
                 </div>
+
+                <script>
+                    $(document).ready(function() {
+                        $('#dataTable').DataTable({
+                            order: [],
+                            columnDefs: [
+                                { targets: '_all', orderable: false },
+                                { targets: 1, visible: false, searchable: true },  // CPF real, oculto, busca ativada
+                                { targets: 2, searchable: false }  ,
+                                // { targets: [1,2,3], orderable: false },   // CPF mascarado, visível, não busca                        
+                            ]
+                        });
+                    });     
+                </script>
                 <!-- /.container-fluid -->
-                <div th:replace="partes-compartilhadas/footer"></div><!--Parte que importa o html responsavel pela parte de baixo das paginas-->
+                <div th:replace="~{partes-compartilhadas/footer}"></div><!--Parte que importa o html responsavel pela parte de baixo das paginas-->

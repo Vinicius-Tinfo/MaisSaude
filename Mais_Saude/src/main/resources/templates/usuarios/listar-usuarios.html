@@ -1,6 +1,24 @@
 
 <div th:replace="~{partes-compartilhadas/topo}"></div><!--Parte que importa o html responsavel pelo topo das paginas-->
               
+                        <style>
+                        td.nome,
+                        td.endereco {
+                            white-space: normal;      
+                            word-wrap: break-word;   
+                            overflow-wrap: break-word;
+                            max-width: 150px;        
+                            }
+                        
+                        table {
+                        table-layout: fixed;
+                        width: 100%;
+                        }
+
+                        .dataTables_filter {  
+                        margin-right: 4%;
+                         }
+                        </style>
 
                     <!-- Page Heading -->
                     <h1 class="h3 mb-2 text-gray-800">Tabela de Usuários</h1>
@@ -23,10 +41,11 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <table class="table table-bordered" id="dataTable" width="98%" cellspacing="0">
                                     <thead>
                                         <tr>
                                             <th>Nome</th>
+                                            <th hidden >Cpf escondido</th>
                                             <th>CPF</th>
                                             <th>Email</th>
                                             <th>Telefone</th>
@@ -38,7 +57,8 @@
                                     <tbody>
                                                <tr th:each="usuarios : ${usuarios}">
                                                   <td th:text="${usuarios.nome}"></td>
-                                                  <td th:text="${usuarios.cpf}"></td>
+                                                  <td hidden th:text="${usuarios.cpf}"></td>
+                                                  <td class="cpf" th:text="'***.' + ${usuarios.cpf.substring(3,6)} + '.***-' + ${usuarios.cpf.substring(9,11)}"></td>
                                                   <td th:text="${usuarios.email}"></td>
                                                   <td th:text="${usuarios.telefone}"></td>
                                                   <td><a th:href="@{'usuario/' + ${usuarios.id}}" class="btn btn-warning btn-block" >Alterar</a></td>
@@ -55,6 +75,19 @@
                         </div>
                     </div>
 
-              
+              <script>
+                $(document).ready(function() {
+                        $('#dataTable').DataTable({
+                            
+                            order: [],
+                            columnDefs: [
+                                { targets: '_all', orderable: false },
+                                { targets: 1, visible: false, searchable: true },  // CPF real, oculto, busca ativada
+                                { targets: 2, searchable: false }  ,
+                                // { targets: [1,2,3], orderable: false },   // CPF mascarado, visível, não busca                        
+                            ]
+                        });
+                    });     
+              </script>
                
                 <div th:replace="~{partes-compartilhadas/footer}"></div><!--Parte que importa o html responsavel pela parte de baixo das paginas-->

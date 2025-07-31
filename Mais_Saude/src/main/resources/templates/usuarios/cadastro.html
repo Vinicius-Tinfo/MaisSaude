@@ -12,16 +12,23 @@
                     <div class="form-row">
 			                <div class="form-group col-md-6">
 							          <label for="nome">Nome Completo</label> 
-							          <input type="text" class="form-control" name="nome" id="nome" placeholder="Digite seu nome completo" oninput="this.value = this.value.replace(/[^A-Z a-z.]/g, '').replace(/(\..*?)\..*/g, '$1');"  required >
+							          <input type="text" class="form-control" name="nome" id="nome" placeholder="Digite seu nome completo"  required >
 							        </div>
 							      <div class="form-group col-md-6">
-							        <label for="cpf">CPF</label>
-							        <input type="text" id="cpf" name="cpf" class="form-control" maxlength="11" placeholder="Digite seu CPF" required>
+                        <label for="cpf">CPF</label>
+                        <input type="text" id="cpf" name="cpf" class="form-control" maxlength="11" placeholder="Digite seu CPF" required>
+                        <small id="cpfhelp" class="form-text text-muted">Apenas números</small>
 							      </div>
 							    
                     </div>
                     <div class="form-row">
-                      <div class="form-group col-md-6">
+
+                       <div class="form-group col-md-4">
+                       <label for="telefone">Telefone</label>
+                       <input type="text" class="form-control" id="telefone" name="telefone" placeholder="Digite o telefone" maxlength="11"   required>
+                      </div>
+
+                      <div class="form-group col-md-4">
                         <label for="sexo_biologico">Sexo biologico</label>
                         <select id="sexo_biologico" name="sexo_biologico" class="form-control" aria-label="Disabled select example" required >
                           <option disabled selected>Escolha o sexo biologico</option>
@@ -29,10 +36,12 @@
                           <option value="masculino">Masculino</option>
                         </select>
                       </div>
-							        <div class="form-group col-md-6">
+
+							        <div class="form-group col-md-4">
 							          <label for="data_de_nascimento">Data de nascimento</label>
 							          <input type="date" class="form-control" id="data_de_nascimento" name="data_de_nascimento" required>
 							        </div>
+
 							     </div>
                             
                       <div class="form-group">
@@ -45,10 +54,7 @@
                        <input  type="text"class="form-control" id="endereco" name="endereco" placeholder="Digite o seu endereço" required>
                       </div>
 
-                      <div class="form-group">
-                       <label for="telefone">Telefone</label>
-                       <input type="text" class="form-control" id="telefone" name="telefone" placeholder="Digite o telefone" maxlength="11"  oninput="mascaracpf(this)"  required>
-                      </div>    
+                         
 
                       <div class="form-group">
                        <label for="senha">Senha</label>
@@ -78,8 +84,9 @@
   
 
                        <div class="form-group col-md-6" id="div-Crm" style="display: none;">
-                       <label for="senha">Digite o CRM</label>
-                       <input type="text" class="form-control" id="crm" name="crm" placeholder="Digite o CRM" required>
+                        <label for="senha">Digite o CRM</label>
+                        <input type="text" class="form-control" id="crm" name="crm" placeholder="Digite o CRM" required>
+                          <small id="crmhelp" class="form-text text-muted">Apenas números</small>
                       </div> 
                       </div>
                          	
@@ -90,18 +97,33 @@
                         
                     </div>
 
-                         <script>
-                          function verificarPermissao() {
-                           const checkbox = document.getElementById("perm_1");
-                           const CampoCRM = document.getElementById("div-Crm");
-                            if (checkbox && checkbox.checked) {
-                              CampoCRM.style.display = "block";
-                            } else {
-                              CampoCRM.style.display = "none";
-                              document.getElementById("crm").value = null;
-                            }
-                         
-                           }
+<script>
+
+document.getElementById('nome').addEventListener('input', function (e) {
+  this.value = this.value.replace(/[^A-Za-z]/g, '');  });
+
+ function soNumeros(e) {
+    this.value = this.value.replace(/[^0-9]/g, '');
+}
+
+document.getElementById('cpf').addEventListener('input', soNumeros);
+
+document.getElementById('telefone').addEventListener('input', soNumeros);
+
+document.getElementById('crm').addEventListener('input', soNumeros);
+
+
+function verificarPermissao() {
+  const checkbox = document.getElementById("perm_1");
+  const CampoCRM = document.getElementById("div-Crm");
+    if (checkbox && checkbox.checked) {
+      CampoCRM.style.display = "block";
+    } else {
+      CampoCRM.style.display = "none";
+      document.getElementById("crm").value = null;
+    }}
+
+
                         </script> 
                
                <div th:replace="~{partes-compartilhadas/footer}"></div><!--Parte que importa o html responsavel pela parte de baixo das paginas-->
