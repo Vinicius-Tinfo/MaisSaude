@@ -4,65 +4,48 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">Consulta</h1>
+                    <h1 class="h3 mb-2 text-gray-800">Consultando - <span th:text="${pacientes?.nome}"></span></h1>
                    
 
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4" style="padding: 30px;">
-                      <form method="post" th:action="@{consulta/realizar-consulta}"  style="margin: 10px" onsubmit="return confirm ('Confirma a ação ?')" th:object="${PacientesModel}">
+                      <form method="post" th:action="@{/consulta/realizar-consulta}"  style="margin: 10px"  th:object="${ConsultaModel}">
                             
-							
-					
                             
-                            <div class="form-row">
-								  <input type="hidden" id="id_paciente" name="id_paciente" th:value="${pacientes?.id}">
-							  </div>
+                          
 							  <div class="form-group">
 								  <label for="nome_medico">Nome do Médico</label>
 								  <input type="text" class="form-control" id="nome_medico" name="nome_medico">
 							  </div>
-							  
-							  	
 					
-							  
                             <div class="form-row">
 								
-			                     <div class="form-group col-md-6">
+			                     <div class="form-group col-md-4">
 							      <label for="nome">Nome do Paciente</label>
-							      <input type="text" class="form-control" id="nome" th:value="${pacientes?.nome}" disabled required>
+							      <input type="text" class="form-control" id="nome" th:value="${pacientes?.nome}" readonly required>
 							    </div>
-							    <div class="form-group col-md-6">
+
+							    <div class="form-group col-md-4">
 							      <label for="cpf">CPF do Paciente</label>
-							      <input type="text" class="form-control" th:value="${pacientes?.cpf}" disabled required>
-								  <input type="hidden" id="cpf" name="cpf" th:value="${pacientes?.cpf}">
-							    </div>
-                            </div>
+							      <input type="text" class="form-control" th:value="${pacientes?.cpf}" name="cpf_paciente" readonly required>
+                            	</div>
                             	
-                                                       <div class="row">
-							       <div class="col">
-							      <label for="data_de_nascimento">Data de nascimento</label>
-							        <input type="date" class="form-control" id="data_de_nascimento" name="data_de_nascimento" th:value="${pacientes?.data_de_nascimento}" disabled required>
-							    </div>
-							  </div>
-                            
-                             <br>
-                              <div class="row">
-				              <div class="form-group col-md-6">
-								  <label for="data">Data da Consulta</label>
-								  <input type="date" id="data" name="data" readonly>
-								  
-							  </div>
-                              </div>
-							  
+								<div class="col col-md-4">
+									<label for="data_de_nascimento">Data de nascimento</label>
+									<input type="date" class="form-control" id="data_de_nascimento" name="data_de_nascimento" th:value="${pacientes?.data_de_nascimento}" disabled required>
+								</div>
+							
+                            </div>
+                           
 					      		<div class="form-group">
-					    		<label for="sintomas">Sintomas</label>
-					    		<textarea class="form-control" id="sintomas"  name="sintomas" onkeyup="limite_textarea(this.value)" style="resize: none;" rows="3" maxlength="300"></textarea>
+					    		<label style="font-size: 25px;" for="sintomas">Sintomas</label>
+					    		<textarea class="form-control" id="sintomas"  name="sintomas" onkeyup="limite_textarea(this.value)" style="resize: none;" rows="5" maxlength="300"></textarea>
 					    		<span id="cont">300</span><span>/300 Restantes</span>
 					  		</div>
 					  		
 					      		<div class="form-group">
-					    		<label for="prontuario">Prescrição</label>
-					    		<textarea class="form-control" id="prontuario"  name="prontuario" onkeyup="limite_textarea1(this.value)" style="resize: none;" rows="3" maxlength="300"></textarea>
+					    		<label style="font-size: 25px;" for="prontuario">Prescrição</label>
+					    		<textarea class="form-control" id="prontuario"  name="prontuario" onkeyup="limite_textarea1(this.value)" style="resize: none;" rows="5" maxlength="300"></textarea>
 					    		<span id="cont1">300</span><span>/300 Restantes</span>
 					  			</div>
                                 

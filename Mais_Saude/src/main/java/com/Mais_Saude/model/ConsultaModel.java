@@ -1,12 +1,16 @@
 package com.Mais_Saude.model;
 
 import java.sql.Date;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -18,33 +22,54 @@ public class ConsultaModel {
 	private Long id;
 	
 	@Column(name = "data")
-	private Date data;
-	
+	private LocalDateTime data;
+
 	@Column(name = "id_usuario")
 	private String id_usuario;
 	
-	@Column(name = "id_paciente")
-	private String id_paciente;
+
+	@ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_paciente", nullable = false)
+	private PacientesModel paciente;
 	
-	@Column(name = "sintomas")
-	private String sintomas;
-	
-	public String getCpf() {
-		return cpf;
+
+
+
+	public PacientesModel getPaciente() {
+		return paciente;
 	}
 
-	public void setCpf(String cpf) {
-		this.cpf = cpf;
+	public void setPaciente(PacientesModel paciente) {
+		this.paciente = paciente;
 	}
+
+	@Column(name = "sintomas")
+	private String sintomas;
 
 	@Column(name = "prontuario")
 	private String prontuario;
 
 	@Column(name = "nome_medico")
 	private String nome_medico;
-	
+
 	@Column(name = "cpf_paciente")
-	private String cpf;
+	private String cpf_paciente;
+
+	public String getCpf_paciente() {
+		return cpf_paciente;
+	}
+
+	public void setCpf_paciente(String cpf_paciente) {
+		this.cpf_paciente = cpf_paciente;
+	}
+
+	public LocalDateTime getData() {
+		return data;
+	}
+
+	public void setData(LocalDateTime data) {
+		this.data = data;
+	}
 	
 	public Long getId() {
 		return id;
@@ -63,13 +88,7 @@ public class ConsultaModel {
 		this.id = id;
 	}
 
-	public Date getData() {
-		return data;
-	}
-
-	public void setData(Date data) {
-		this.data = data;
-	}
+	
 
 	public String getId_usuario() {
 		return id_usuario;
@@ -79,13 +98,9 @@ public class ConsultaModel {
 		this.id_usuario = id_usuario;
 	}
 
-	public String getId_paciente() {
-		return id_paciente;
-	}
+	
 
-	public void setId_paciente(String id_paciente) {
-		this.id_paciente = id_paciente;
-	}
+
 
 	public String getSintomas() {
 		return sintomas;

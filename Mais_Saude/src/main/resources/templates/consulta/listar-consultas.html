@@ -18,8 +18,10 @@
                                     <thead>
                                         <tr>
                                         <!--    <th>Id</th> -->
-                                            <th>Nome Médico</th>                                  
+                                            <th>Nome Médico</th> 
+                                            <th>Nome Paciente</th> 
                                             <th>CPF paciente</th>
+                                            <th hidden></th>
                                             <th>Data</th>
                                             <th></th>
                                             
@@ -30,10 +32,17 @@
                                     </tfoot>
                                     <tbody>
                                               <tr th:each="consulta : ${consulta}">
-                                                <!--  <td th:text="${pacientes.id}"></td> -->
                                                   <td th:text="${consulta.nome_medico}"></td>
-                                                  <td th:text="${consulta.cpf}"></td>
-                                                  <td th:text="${consulta.data}"></td>
+
+
+
+                                                  <td th:text="${consulta.paciente.nome}"></td>
+
+
+                                                  <td hidden th:text="${consulta.cpf_paciente}"></td>
+                                                  <td class="cpf" th:text="'***.' + ${consulta.cpf_paciente.substring(3,6)} + '.***-' + ${consulta.cpf_paciente.substring(9,11)}"></td>
+                                                  
+                                                <td th:text="${#temporals.format(consulta.data, 'dd/MM/yyyy HH:mm')}"></td>
 
                                             <td><a th:href="@{'/visualizar-' + ${consulta.id}}" class="btn btn-info btn-block" >Visualizar Consulta</a></td>
                                         </tr>
@@ -44,5 +53,19 @@
                     </div>
 
                 </div>
+                <script>
+                    $(document).ready(function() {
+                        $('#dataTable').DataTable({
+                            
+                            order: [],
+                            columnDefs: [
+                                { targets: '_all', orderable: false },
+                                { targets: 2, searchable: true },  // CPF real, oculto, busca ativada
+                                { targets: 3, searchable: false }  ,
+                                // { targets: [1,2,3], orderable: false },   // CPF mascarado, visível, não busca                        
+                            ]
+                        });
+                    });     
+                </script>
                 <!-- /.container-fluid -->
                 <div th:replace="~{partes-compartilhadas/footer}"></div><!--Parte que importa o html responsavel pela parte de baixo das paginas-->

@@ -1,23 +1,22 @@
 package com.Mais_Saude.service;
 
-import java.net.URI;
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.Mais_Saude.model.ConsultaModel;
 import com.Mais_Saude.model.PacientesModel;
 import com.Mais_Saude.repository.ConsultaRepository;
 import com.Mais_Saude.repository.PacienteRepository;
+
+import jakarta.servlet.http.HttpSession;
 
 @Service
 public class ConsultaService {
@@ -31,7 +30,9 @@ private PacienteRepository pacienterepository;
 
 
 public String listarConsultas(Model model) {
+
 	model.addAttribute("consulta", consultarepository.findAll());
+
 return "/consulta/listar-consultas";
 }
 
@@ -39,7 +40,8 @@ public String consultar(@PathVariable long id, Model model,RedirectAttributes re
 	try {
 		PacientesModel paciente = pacienterepository.findById(id).get();
 		redirectAttributes.addFlashAttribute("pacientes", paciente);
-			// model.addAttribute("pacientes", pacientes.get());
+
+		
 		
 	String nomeTratado = paciente.getNome().replace(" ", "-");
 	return ("redirect:/consulta/"+nomeTratado);
@@ -50,15 +52,35 @@ public String consultar(@PathVariable long id, Model model,RedirectAttributes re
 	}
 
 
-public String ConsultaComNome( String nome,Model model) {
+public String ConsultaComNome( String nome,Model model,HttpSession session) {
+	
+	PacientesModel paciente = (PacientesModel)model.getAttribute("pacientes");
+
+	session.setAttribute("pacienteId", paciente.getId());
+
 
     return "/consulta/consultar";
 }
 
-public ModelAndView salvarConsulta (ConsultaModel consulta) {
-	ModelAndView mv = new ModelAndView("redirect:/pacientes");
+public String salvarConsulta (ConsultaModel consulta,Model model,HttpSession session) {
+	LocalDateTime data = LocalDateTime.now();;
+	System.out.println("entrou");
+
+	Long pacienteId = (Long) session.getAttribute("pacienteId");
+
+	System.out.println("pegou no session "+pacienteId);
+
+	PacientesModel paciente =  pacienterepository.findById(pacienteId).get();
+
+	consulta.setData(data);
+	consulta.setPaciente(paciente);
 	consultarepository.save(consulta);
-	return mv;
+
+
+
+
+
+	return "redirect:/pacientes";
 
 }
 
