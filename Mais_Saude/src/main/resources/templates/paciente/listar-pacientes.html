@@ -35,14 +35,13 @@
                                 <table class="table table-bordered" id="dataTable" width="98%" cellspacing="0">
                                     <thead>
                                         <tr>
-                                            <th>Nome</th>                                  
-                                            <th hidden>Cpf escondido</th>
-                                            <th>CPF</th>
-                                            <th>Telefone</th>
-                                            <th>Endereço</th>    
-                                            <th></th>
-                                            <th></th>
-                                            <th></th>
+                                            <th >Nome</th>                                  
+                                            <th  hidden>Cpf escondido</th>
+                                            <th  >CPF</th>
+                                            <th  >Telefone</th>
+                                            <th  >Endereço</th>    
+                                            <th colspan="3"> Ações</th>
+                                         
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -65,19 +64,27 @@
                     </div>
 
                 </div>
+                <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> jQuery -->
 
-                <script>
-                    $(document).ready(function() {
-                        $('#dataTable').DataTable({
-                            order: [],
-                            columnDefs: [
-                                { targets: '_all', orderable: false },
-                                { targets: 1, visible: false, searchable: true },  // CPF real, oculto, busca ativada
-                                { targets: 2, searchable: false }  ,
-                                // { targets: [1,2,3], orderable: false },   // CPF mascarado, visível, não busca                        
-                            ]
-                        });
-                    });     
+
+                <script> 
+              $(document).ready(function() {
+                $('#dataTable').DataTable({
+                    autoWidth: false,
+                    // <!--/* Na mesma ordem das colunas da tabela */--> //
+                    columns: [
+                        null,
+                        { visible: false },
+                        null,
+                        null,
+                        null,
+                        { orderable: false },
+                        { orderable: false },
+                        { orderable: false }],
+                        ordering: false
+    });
+});
+                    
                 </script>
                 <!-- /.container-fluid -->
                 <div th:replace="~{partes-compartilhadas/footer}"></div><!--Parte que importa o html responsavel pela parte de baixo das paginas-->

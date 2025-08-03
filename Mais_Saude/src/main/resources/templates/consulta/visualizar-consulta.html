@@ -24,32 +24,40 @@
   <div class="card shadow mb-4" style="padding: 30px;">
     <form method="post" th:action="@{'/' + ${consulta.id} + '/consultar'}" style="margin: 10px">
       
-      	<div class="form-group">
+
+ 	<div class="form-row">
+								
+      	<div class="form-group  col-md-3 "> 
         <label for="nome_medico">Nome do Médico</label>
-        <input type="text" class="form-control" id="nome_medico" name="nome_medico" th:value="${consulta?.nome_medico}" required disabled>
+        <input type="text" class="form-control" id="nome_medico" name="nome_medico" th:value="${consulta?.nome_medico}"  readonly>
+ 		</div>
+
+		<div class="form-group  col-md-3 "> 
+        <label for="nome_paciente">Nome do Paciente</label>
+        <input type="text" class="form-control" id="nome_paciente" name="nome_paciente" th:value="${consulta?.paciente.nome}"  readonly>
  		</div>
       	
-      	<div class="form-group">
+      	<div class="form-group col-md-3  ">
         <label for="cpf">CPF do Paciente</label>
-        <input type="text" class="form-control" id="cpf" name="cpf" th:value="${consulta?.cpf}" required disabled>
+        <input type="text" class="form-control" id="cpf" name="cpf" th:value="${consulta?.paciente.cpf}"  readonly>
  		</div>
       	
-        <div class="form-group">
-		<label for="data" >Data da Consulta</label>
-		<br>
-		<input type="date" id="data" name="data" th:value="${consulta?.data}" disabled required>
+        <div class="form-group col-md-3 ">
+			<label for="data">Data da Consulta</label>
+	        <input type="text" id="data" class="form-control" name="data" th:value="${#temporals.format(consulta.data, 'dd/MM/yyyy HH:mm')}" readonly>
 		</div>
-      
+
+	</div>
      	<div class="form-group">
         <label for="sintomas">Sintomas</label>
-        <textarea disabled class="form-control" id="sintomas" name="sintomas" rows="3" style="resize: none;" th:inline="text">[[${consulta?.sintomas}]]</textarea>
+        <textarea readonly class="form-control" id="sintomas" name="sintomas" rows="5" style="resize: none;" th:inline="text">[[${consulta?.sintomas}]]</textarea>
      	</div>
      	
      	<div class="form-group">
         <label for="prontuario">Prontuario</label>
-        <textarea disabled class="form-control" id="prontuario" name="prontuario" rows="3" style="resize: none;" th:inline="text">[[${consulta?.prontuario}]]</textarea>
+        <textarea readonly class="form-control" id="prontuario" name="prontuario" rows="5" style="resize: none;" th:inline="text">[[${consulta?.prontuario}]]</textarea>
      	</div>
-       	        
+       	        <!-- Troca para botão via thymelaf -->
       <a href="/consultas"><button type="button" class="btn btn-primary" >Voltar</button></a>
     </form>
 

@@ -28,12 +28,12 @@ private UsuarioService usuarioService;
 
 		
 @GetMapping("/usuarios")
-public String listar(Model model) {
+public String listarUsuarios(Model model) {
 	return usuarioService.listarUsuarios(model);
 	}
 	
 @GetMapping("/cadastro-de-usuario")
-public String novoUsuario(Model model) { 
+public String CadastroDeUsuario(Model model) { 
 	model.addAttribute("permissoes", permissoesRepository.findAll());
 
 	return"/usuarios/cadastro";
@@ -41,7 +41,7 @@ public String novoUsuario(Model model) {
 
 	// melhor esse metodo e adicionar verificações
 @PostMapping("/usuario/criar")
-	public String criar(UsuarioModel usuarios,RedirectAttributes redirectAttributes) {
+	public String criarUsuario(UsuarioModel usuarios,RedirectAttributes redirectAttributes) {
 
 	return usuarioService.criarUsuario(usuarios, redirectAttributes);		
 	}
@@ -49,13 +49,13 @@ public String novoUsuario(Model model) {
 	//Converter esse metodo para post dentro de um modal
 	// quando estiver com o security adicionar antes da verificação de senha//
 @PostMapping("/deletar-usuario/{id}")
-	public String Deletar(@PathVariable("id") long id ,RedirectAttributes redirectAttributes) {
+	public String deletarUsuario(@PathVariable("id") long id ,RedirectAttributes redirectAttributes) {
 
     return usuarioService.deletarUsuario(id, redirectAttributes);
 	}
 
 @GetMapping("usuario/{id}")
-	public String busca(@PathVariable long id, Model model,RedirectAttributes redirectAttributes){
+	public String buscaUsuario(@PathVariable long id, Model model,RedirectAttributes redirectAttributes){
 
 	return usuarioService.buscarUsuario(id, model, redirectAttributes);
 		
@@ -63,7 +63,7 @@ public String novoUsuario(Model model) {
 	
 	
 @PostMapping("/usuario/{id}/atualizar")
-	public String atualizar(@PathVariable long id, UsuarioModel usuarios , RedirectAttributes redirectAttributes){
+	public String atualizarUsuario(@PathVariable long id, UsuarioModel usuarios , RedirectAttributes redirectAttributes){
 
 	return usuarioService.atulizarUsuario(id, usuarios, redirectAttributes);
 		

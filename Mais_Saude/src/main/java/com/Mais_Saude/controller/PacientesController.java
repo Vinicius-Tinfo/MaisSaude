@@ -24,35 +24,35 @@ private PacienteService pacienteService;
 
 
 @GetMapping("/pacientes")
-public String Pacientes(Model model) {
+public String listarPacientes(Model model) {
 	return pacienteService.listarPacientes(model);
 }
 
 
 @GetMapping ("/cadastro-paciente")
-public String Novo(Model model) {
+public String cadastroDePaciente(Model model) {
 	return "/paciente/cadastro-paciente";
 }
 
 @GetMapping("paciente/{id}")
-public String buscar(@PathVariable long id, Model model,RedirectAttributes redirectAttributes) {
+public String buscarPaciente(@PathVariable long id, Model model,RedirectAttributes redirectAttributes) {
 	
 	return pacienteService.buscarPaciente(id, model, redirectAttributes);
 }
 
 @PostMapping("pacientes/cadastrar-paciente")
-public ModelAndView criar(PacientesModel pacientes,RedirectAttributes redirectAttributes) {
+public ModelAndView criarPaciente(PacientesModel pacientes,RedirectAttributes redirectAttributes) {
 	return pacienteService.criarPaciente(pacientes, redirectAttributes);
 }
 
 
 @PostMapping("/{id}/alterarpaciente")
-public String alterarpaciente(@PathVariable long id, PacientesModel pacientes,RedirectAttributes redirectAttributes) {
+public String alterarPaciente(@PathVariable long id, PacientesModel pacientes,RedirectAttributes redirectAttributes) {
 	return pacienteService.atulizarPaciente(id, pacientes, redirectAttributes);
 }
 
 @PostMapping("/deletar-paciente/{id}")
-public String Deletar (PacientesModel paciente,@PathVariable("id") long id ,RedirectAttributes redirectAttributes) {
+public String deletarPaciente(PacientesModel paciente,@PathVariable("id") long id ,RedirectAttributes redirectAttributes) {
 	return pacienteService.deletarPaciente(id, redirectAttributes);
 }
 

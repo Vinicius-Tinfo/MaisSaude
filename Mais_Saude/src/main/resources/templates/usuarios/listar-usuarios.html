@@ -16,7 +16,7 @@
                         }
 
                         .dataTables_filter {  
-                        margin-right: 4%;
+                        margin-right: 2%;
                          }
                         </style>
 
@@ -49,8 +49,7 @@
                                             <th>CPF</th>
                                             <th>Email</th>
                                             <th>Telefone</th>
-                                            <th></th>
-                                            <th></th>
+                                            <th colspan="2"></th>
                                         </tr>
                                     </thead>
                                     
@@ -77,17 +76,20 @@
 
               <script>
                 $(document).ready(function() {
-                        $('#dataTable').DataTable({
-                            
-                            order: [],
-                            columnDefs: [
-                                { targets: '_all', orderable: false },
-                                { targets: 1, visible: false, searchable: true },  // CPF real, oculto, busca ativada
-                                { targets: 2, searchable: false }  ,
-                                // { targets: [1,2,3], orderable: false },   // CPF mascarado, visível, não busca                        
-                            ]
+                $('#dataTable').DataTable({
+                    autoWidth: false,
+                    // <!--/* Na mesma ordem das colunas da tabela */--> //
+                    columns: [
+                        null,
+                        { visible: false },
+                        null,
+                        null,
+                        null,
+                        { orderable: false },
+                        { orderable: false },],
+                        ordering: false
                         });
-                    });     
+                    });
               </script>
                
                 <div th:replace="~{partes-compartilhadas/footer}"></div><!--Parte que importa o html responsavel pela parte de baixo das paginas-->
