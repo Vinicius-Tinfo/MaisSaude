@@ -2,7 +2,11 @@ package com.Mais_Saude.model;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -16,7 +20,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name="usuarios",schema = "mais_saude")
-public class UsuarioModel {
+public class UsuarioModel implements UserDetails {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -62,6 +66,9 @@ public class UsuarioModel {
 
 
 	
+	public UsuarioModel() {
+	}
+
 	public List<PermissoesModel> getPermissoes() {
 		return permissoes;
 	}
@@ -143,6 +150,44 @@ public class UsuarioModel {
 
 	public void setSenha(String senha) {
 		this.senha = senha;
+	}
+
+	// aqui para baixo e a parte que comanda o security 
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+    	return this.permissoes;
+		
+	}
+
+	@Override
+	public String getPassword() {
+		return this.senha;
+	}
+
+	@Override
+	public String getUsername() {
+		return this.cpf;
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		return true;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		return true;
 	}
 
 	
