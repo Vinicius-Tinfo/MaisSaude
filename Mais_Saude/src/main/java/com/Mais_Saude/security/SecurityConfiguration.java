@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.Mais_Saude.repository.UsuarioRepository;
 
@@ -43,7 +44,17 @@ public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 	            .formLogin(formLogin -> formLogin	
                 .loginPage("/login") 
                 .defaultSuccessUrl("/", true)
-                .permitAll());
+                .permitAll())
+                .logout(logout -> logout
+        .logoutUrl("/logout") // URL do logout
+        .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
+        .logoutSuccessUrl("/login?logout") // para onde vai depois de deslogar
+        .permitAll()); // invalida sessão);
+
+
+
+
+
 	            // .successHandler((request, response, authentication) -> {
 	            // UsuarioModel usuario =  usuarioRepository.buscarUsuario(authentication.getName());
 
@@ -69,11 +80,11 @@ public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
        
 	  return authenticationManagerBuilder.build();}
 	
-	@PostConstruct
-public void printPassword() {
-    BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(); // instância manual
-    System.out.println(encoder.encode("123"));
-}
+// 	@PostConstruct
+// public void printPassword() {
+//     BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(); 
+//     System.out.println(encoder.encode("123"));
+// }
 
 
 }

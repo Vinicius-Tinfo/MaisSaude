@@ -5,6 +5,7 @@ import java.util.List;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -23,6 +24,9 @@ public class UsuarioService {
 
     @Autowired
     private PermissoesRepository permissoesRepository;
+
+	@Autowired
+    private PasswordEncoder passwordEncoder;
 
     public String listarUsuarios(Model model){
         
@@ -61,7 +65,9 @@ public class UsuarioService {
 
 
     public String criarUsuario(UsuarioModel usuario,RedirectAttributes redirectAttributes){
-		
+
+			
+			usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
 			usuarioRepository.save(usuario);
 			redirectAttributes.addFlashAttribute("mensagem", "Usuario criado com sucesso ");
 			return "redirect:/usuarios";
