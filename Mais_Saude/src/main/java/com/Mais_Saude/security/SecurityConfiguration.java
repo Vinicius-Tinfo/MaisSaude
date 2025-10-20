@@ -35,51 +35,34 @@ public PasswordEncoder passwordEncoder (){
 
 @Bean
 public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-   http.authorizeHttpRequests(
-	            auth -> auth.requestMatchers("/login").permitAll() //liberando acesso paralogar
-                .requestMatchers("/static/**").permitAll() // liberando Css,js,img,etc.
+            http.authorizeHttpRequests(
+	            auth -> auth.requestMatchers("/login").permitAll() // liberando acesso para logar
+.requestMatchers(   "/css/**", "/js/**","/scss/**","/img/**","/vendor/**").permitAll()
 	           // .requestMatchers("").hasAnyAuthority("")		// aqui coloca 1 - caminho ou caminhos - 2 a autoridade necessaria
-	            .anyRequest().authenticated()
-	           )
+	            .anyRequest().authenticated())
 	            .formLogin(formLogin -> formLogin	
                 .loginPage("/login") 
                 .defaultSuccessUrl("/", true)
                 .permitAll())
                 .logout(logout -> logout
-        .logoutUrl("/logout") // URL do logout
-        .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
-        .logoutSuccessUrl("/login?logout") // para onde vai depois de deslogar
-        .permitAll()); // invalida sessão);
-
-
-
-
-
-	            // .successHandler((request, response, authentication) -> {
-	            // UsuarioModel usuario =  usuarioRepository.buscarUsuario(authentication.getName());
-
-                // if (usuario.isPrimeiro_login()) {  
-                //     //response.sendRedirect("/primeiroLogin"); 
-                //     RequestDispatcher dispatcher = request.getRequestDispatcher("/primeiroLogin");         		       	            		       
-                //     dispatcher.forward(request, response);             		        
-                    
-                // } else if (authentication.getAuthorities().stream()
-                //         .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("administrador"))) {
-
-                //     response.sendRedirect("/listarUsuarios"); }}
+                    .logoutUrl("/logout") 
+                    .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
+                    .logoutSuccessUrl("/login?logout") // para onde vai depois de deslogar
+                    .permitAll());
     return http.build();   
 }
-	 @Bean
-	 public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
-	         AuthenticationManagerBuilder authenticationManagerBuilder =
-	             http.getSharedObject(AuthenticationManagerBuilder.class);
-	         
+@Bean
+public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
+    AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
+
 	         authenticationManagerBuilder
-	         .userDetailsService(userConfig)  // Configura o UserDetailsService
-	         .passwordEncoder(passwordEncoder());      // Configura o PasswordEncoder
+	         .userDetailsService(userConfig)  
+	         .passwordEncoder(passwordEncoder());    
        
 	  return authenticationManagerBuilder.build();}
-	
+
+      
+// descomentar para caso queia um exemplo de senha encriptada 	
 // 	@PostConstruct
 // public void printPassword() {
 //     BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(); 
